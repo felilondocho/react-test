@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Item should render correctly 1`] = `
+<Item
+  classes={
+    Object {
+      "item": "Item-item-0-1-1",
+      "itemDescription": "Item-itemDescription-0-1-3",
+      "itemTitle": "Item-itemTitle-0-1-2",
+    }
+  }
+/>
+`;

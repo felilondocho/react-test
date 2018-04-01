@@ -1,9 +1,13 @@
 import * as types from './actionTypes';
- 
-export function fetchData() {
-  return (dispatch, getState) => {
+
+function loadDataSuccess(json) {
+  return {type: types.FETCH_DATA_SUCCESS, payload: json};
+}
+
+export function fetchData () {
+  return dispatch => {
     return fetch('http://roadmapservice.azurewebsites.net/api/buckets')
       .then(response => response.json())
-      .then(json => dispatch( { type: types.FETCH_DATA, payload: json }))
-  }
+      .then(json => dispatch(loadDataSuccess(json)))
+  };
 }
