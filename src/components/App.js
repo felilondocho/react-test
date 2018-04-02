@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { fetchData } from '../actions/fetch'
+import { callAPI } from '../actions/actions'
 import Board from './Board';
 import injectSheet from 'react-jss';
 
@@ -28,47 +28,73 @@ const styles = {
 }
 
 class App extends Component {
-  componentWillMount() {
-    this.props.fetchData()
+  constructor(props) {
+    super(props);
   }
+  componentWillMount() {
+    // this.props.fetchData()
+  }
+  // loadCards() {
+  //   callAPI()
+  // }
   render() {
     const { classes } = this.props;
-    if (this.props.components.length > 0) {
-      return (
-        <div className="App">
-          <header className={classes.appHeader}>
-            <h1 className={classes.appTitle}>React App</h1>
-          </header>
-          <div className={classes.appBody}>
-            <Board
-              boardElements={this.props.components}
-             />
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div className="App">
-          <header className={classes.appHeader}>
-            <h1 className={classes.appTitle}>React App</h1>
-          </header>
-          <div className={classes.appBody}>
-          <div class="spinner">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-          </div>
-          </div>
-        </div>
-      );
-    }
+    return (
+      <div>
+        <button onClick={this.loadCards}>
+          Load Cards
+        </button>
+        {/* <p>{this.props.getState()}</p> */}
+      </div>
+    );
+    // if (this.props.components.length > 0) {
+    //   return (
+    //     <div className="App">
+    //       <header className={classes.appHeader}>
+    //         <h1 className={classes.appTitle}>React App</h1>
+    //       </header>
+    //       <div className={classes.appBody}>
+    //         <Board
+    //           boardElements={this.props.components}
+    //          />
+    //       </div>
+    //     </div>
+    //   );
+    // } else {
+    //   return (
+    //     <div className="App">
+    //       <header className={classes.appHeader}>
+    //         <h1 className={classes.appTitle}>React App</h1>
+    //       </header>
+    //       <div className={classes.appBody}>
+    //       <div className="spinner">
+    //         <div className="bounce1"></div>
+    //         <div className="bounce2"></div>
+    //         <div className="bounce3"></div>
+    //       </div>
+    //       </div>
+    //     </div>
+    //   );
+    // }
+  }
+}
+
+// function mapStateToProps(state) {
+//   return {
+//     components: state.components
+//   }
+// }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadCards: () => dispatch(callAPI())
   }
 }
 
 function mapStateToProps(state) {
   return {
-    components: state.components
+    estado: state.estado
   }
 }
 
-export default (connect(mapStateToProps, {fetchData})(injectSheet(styles)(App)));
+export default (connect(mapStateToProps, mapDispatchToProps)(injectSheet(styles)(App)));
