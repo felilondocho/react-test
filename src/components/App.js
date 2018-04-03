@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { fetchData } from '../actions/actions'
 import Board from './Board';
 import injectSheet from 'react-jss';
-import { bindActionCreators } from 'redux';
 
 const styles = {
   appHeader: {
@@ -23,8 +22,31 @@ const styles = {
     display: 'inline-block'
   },
   appBody: {
-    marginTop: '80px',
-    backgroundColor: '#f8f6f8'
+    paddingTop: '80px',
+    backgroundColor: '#f8f6f8',
+    minWidth: '100vw',
+    minHeight: 'calc(100vh - 80px)'
+  },
+  requestButton: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%,-50%)',
+    borderRadius: '20px',
+    height: '100px',
+    lineHeight: '100px',
+    color: '#000000',
+    width: '200px',
+    fontSize: '20px',
+    backgroundColor: '#FFFFFF',
+    cursor: 'pointer',
+    transition: 'all .2s ease-in-out',
+    '&:hover': {
+      transform: 'translate(-50%,-50%) scale(1.1)'
+    },
+    '&:active': {
+      borderStyle: 'solid'
+    } 
   }
 }
 
@@ -33,62 +55,80 @@ class App extends Component {
     super(props);
     this.loadCards = this.loadCards.bind(this);
   }
-  componentWillMount() {
-    // this.props.fetchData()
-  }
   loadCards() {
     this.props.dispatch(fetchData());
   }
   render() {
     const { classes } = this.props;
-    return (
-      <div>
-        <button onClick={this.loadCards}>
-          Load Cards
-        </button>
-      </div>
-    );
-    // if (this.props.components.length > 0) {
-    //   return (
-    //     <div className="App">
-    //       <header className={classes.appHeader}>
-    //         <h1 className={classes.appTitle}>React App</h1>
-    //       </header>
-    //       <div className={classes.appBody}>
-    //         <Board
-    //           boardElements={this.props.components}
-    //          />
-    //       </div>
-    //     </div>
-    //   );
-    // } else {
-    //   return (
-    //     <div className="App">
-    //       <header className={classes.appHeader}>
-    //         <h1 className={classes.appTitle}>React App</h1>
-    //       </header>
-    //       <div className={classes.appBody}>
-    //       <div className="spinner">
-    //         <div className="bounce1"></div>
-    //         <div className="bounce2"></div>
-    //         <div className="bounce3"></div>
-    //       </div>
-    //       </div>
-    //     </div>
-    //   );
-    // }
+    switch (this.props.currentState) {
+      case 'initial':
+        return (
+          <div className="App">
+            <header className={classes.appHeader}>
+              <h1 className={classes.appTitle}>React App</h1>
+            </header>
+            <div className={classes.appBody}>
+              <button className={classes.requestButton} onClick={this.loadCards}>
+                Load Cards
+              </button>
+            </div>
+          </div>
+        );
+      case 'loading':
+        return (
+          <div className="App">
+            <header className={classes.appHeader}>
+              <h1 className={classes.appTitle}>React App</h1>
+            </header>
+            <div className={classes.appBody}>
+              <div className="spinner">
+                <div className="bounce1"></div>
+                <div className="bounce2"></div>
+                <div className="bounce3"></div>
+              </div>
+            </div>
+          </div>
+        );
+      case 'success':
+        return (
+          <div className="App">
+            <header className={classes.appHeader}>
+              <h1 className={classes.appTitle}>React App</h1>
+            </header>
+            <div className={classes.appBody}>
+              <Board
+                boardElements={this.props.components}
+              />
+            </div>
+          </div>
+        );
+      case 'fail':
+        return(
+          <div className="App">
+            <header className={classes.appHeader}>
+              <h1 className={classes.appTitle}>React App</h1>
+            </header>
+            <div className={classes.appBody}>
+              <h1>Failed Request</h1>
+            </div>
+          </div>
+        );
+      default:
+        return(
+          <div className="App">
+            <header className={classes.appHeader}>
+              <h1 className={classes.appTitle}>React App</h1>
+            </header>
+          </div>
+        );
+    }
   }
 }
 
-// function mapStateToProps(state) {
-//   return {
-//     components: state.components
-//   }
-// }
-
 function mapStateToProps(state) {
   return {
-    estado: state.estado
+    components: state.components,
+    currentState: state.currentState
   }
 }
 

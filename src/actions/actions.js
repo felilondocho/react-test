@@ -1,30 +1,23 @@
 import * as types from './actionTypes';
 
-// function loadDataSuccess(json) {
-//   console.log('fetched');
-//   return {type: types.FETCH_DATA_SUCCESS, payload: json};
-// }
-
-// export function fetchData () {
-//   return dispatch => {
-//     return fetch('http://roadmapservice.azurewebsites.net/api/buckets')
-//       .then(response => response.json())
-//       .then(json => dispatch(loadDataSuccess(json)))
-//   };
-// }
-
 export function fetchData() {
   return dispatch => {
     dispatch(requestData())
-
+    dispatch(loading())
     return fetch('http://roadmapservice.azurewebsites.net/api/buckets')
-      // .then(
-      //   response => response.json(),
-      //   error => console.log('An error occurred.', error)
-      // )
-      // .then(dispatch(successfulRequest()))
-      .then(dispatch(successfulRequest()))
-      .catch(dispatch(failedRequest()))
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error('Something went wrong');
+      }
+    })
+    .then((responseJson) => {
+      dispatch(successfulRequest(responseJson))
+    })
+    .catch((error) => {
+      dispatch(failedRequest())
+    });
   }
 }
 
@@ -34,9 +27,16 @@ function requestData() {
   }
 }
 
+function loading() {
+  return {
+    type: types.LOADING
+  }
+}
+
 function successfulRequest(json) {
   return {
-    type: types.SUCCESS
+    type: types.SUCCESS,
+    payload: json
   }
 }
 
