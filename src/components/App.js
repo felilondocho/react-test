@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { callAPI } from '../actions/actions'
+import { fetchData } from '../actions/actions'
 import Board from './Board';
 import injectSheet from 'react-jss';
+import { bindActionCreators } from 'redux';
 
 const styles = {
   appHeader: {
@@ -30,13 +31,14 @@ const styles = {
 class App extends Component {
   constructor(props) {
     super(props);
+    this.loadCards = this.loadCards.bind(this);
   }
   componentWillMount() {
     // this.props.fetchData()
   }
-  // loadCards() {
-  //   callAPI()
-  // }
+  loadCards() {
+    this.props.dispatch(fetchData());
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -44,7 +46,6 @@ class App extends Component {
         <button onClick={this.loadCards}>
           Load Cards
         </button>
-        {/* <p>{this.props.getState()}</p> */}
       </div>
     );
     // if (this.props.components.length > 0) {
@@ -85,16 +86,10 @@ class App extends Component {
 //   }
 // }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadCards: () => dispatch(callAPI())
-  }
-}
-
 function mapStateToProps(state) {
   return {
     estado: state.estado
   }
 }
 
-export default (connect(mapStateToProps, mapDispatchToProps)(injectSheet(styles)(App)));
+export default (connect(mapStateToProps, )(injectSheet(styles)(App)));

@@ -13,14 +13,35 @@ import * as types from './actionTypes';
 //   };
 // }
 
-export function callAPI() {
+export function fetchData() {
+  return dispatch => {
+    dispatch(requestData())
+
+    return fetch('http://roadmapservice.azurewebsites.net/api/buckets')
+      // .then(
+      //   response => response.json(),
+      //   error => console.log('An error occurred.', error)
+      // )
+      // .then(dispatch(successfulRequest()))
+      .then(dispatch(successfulRequest()))
+      .catch(dispatch(failedRequest()))
+  }
+}
+
+function requestData() {
   return {
     type: types.REQUEST
   }
 }
 
-function fetchData() {
-    return fetch('http://roadmapservice.azurewebsites.net/api/buckets')
-      .then(response => response.json())
+function successfulRequest(json) {
+  return {
+    type: types.SUCCESS
+  }
 }
 
+function failedRequest() {
+  return {
+    type: types.FAIL
+  }
+}
