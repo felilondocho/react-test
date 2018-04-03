@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import injectSheet from 'react-jss';
 import { fetchData } from '../actions/actions'
 import Board from './Board';
-import injectSheet from 'react-jss';
+
 
 const styles = {
   appHeader: {
@@ -50,86 +51,92 @@ const styles = {
   }
 }
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.loadCards = this.loadCards.bind(this);
-  }
-  loadCards() {
-    this.props.dispatch(fetchData());
-  }
-  render() {
-    const { classes } = this.props;
-    switch (this.props.currentState) {
-      case 'initial':
-        return (
-          <div className="App">
-            <header className={classes.appHeader}>
-              <h1 className={classes.appTitle}>React App</h1>
-            </header>
-            <div className={classes.appBody}>
-              <button className={classes.requestButton} onClick={this.loadCards}>
-                Load Cards
-              </button>
-            </div>
-          </div>
-        );
-      case 'loading':
-        return (
-          <div className="App">
-            <header className={classes.appHeader}>
-              <h1 className={classes.appTitle}>React App</h1>
-            </header>
-            <div className={classes.appBody}>
-              <div className="spinner">
-                <div className="bounce1"></div>
-                <div className="bounce2"></div>
-                <div className="bounce3"></div>
-              </div>
-            </div>
-          </div>
-        );
-      case 'success':
-        return (
-          <div className="App">
-            <header className={classes.appHeader}>
-              <h1 className={classes.appTitle}>React App</h1>
-            </header>
-            <div className={classes.appBody}>
-              <Board
-                boardElements={this.props.components}
-              />
-            </div>
-          </div>
-        );
-      case 'fail':
-        return(
-          <div className="App">
-            <header className={classes.appHeader}>
-              <h1 className={classes.appTitle}>React App</h1>
-            </header>
-            <div className={classes.appBody}>
-              <h1>Failed Request</h1>
-            </div>
-          </div>
-        );
-      default:
-        return(
-          <div className="App">
-            <header className={classes.appHeader}>
-              <h1 className={classes.appTitle}>React App</h1>
-            </header>
-          </div>
-        );
-    }
-  }
+const App = ({ props, classes, items, error, isFetching }) => {
+  return (
+    <div className="App">
+      <header className={classes.appHeader}>
+        <h1 className={classes.appTitle}>React App</h1>
+      </header>
+      <div className={classes.appBody}>
+        {!isFetching && items.length > 0 ?
+          <button className={classes.requestButton} onClick={this.loadCards}>
+            Load Cards
+          </button>
+        : null}
+      </div>
+    </div>
+  );
 }
 
-function mapStateToProps(state) {
-  return {
-    components: state.components,
-    currentState: state.currentState
-  }
-}
+// Inicial con boton
+// Cargando
+// successful
+// Fail
 
-export default (connect(mapStateToProps, )(injectSheet(styles)(App)));
+  // render() {
+  //   const { classes } = this.props;
+  //   switch (this.props.currentState) {
+  //     case 'initial':
+  //       return (
+  //         <div className="App">
+  //           <header className={classes.appHeader}>
+  //             <h1 className={classes.appTitle}>React App</h1>
+  //           </header>
+  //           <div className={classes.appBody}>
+  //             <button className={classes.requestButton} onClick={this.loadCards}>
+  //               Load Cards
+  //             </button>
+  //           </div>
+  //         </div>
+  //       );
+  //     case 'loading':
+  //       return (
+  //         <div className="App">
+  //           <header className={classes.appHeader}>
+  //             <h1 className={classes.appTitle}>React App</h1>
+  //           </header>
+  //           <div className={classes.appBody}>
+  //             <div className="spinner">
+  //               <div className="bounce1"></div>
+  //               <div className="bounce2"></div>
+  //               <div className="bounce3"></div>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       );
+  //     case 'success':
+  //       return (
+  //         <div className="App">
+  //           <header className={classes.appHeader}>
+  //             <h1 className={classes.appTitle}>React App</h1>
+  //           </header>
+  //           <div className={classes.appBody}>
+  //             <Board
+  //               boardElements={this.props.components}
+  //             />
+  //           </div>
+  //         </div>
+  //       );
+  //     case 'fail':
+  //       return(
+  //         <div className="App">
+  //           <header className={classes.appHeader}>
+  //             <h1 className={classes.appTitle}>React App</h1>
+  //           </header>
+  //           <div className={classes.appBody}>
+  //             <h1>Failed Request</h1>
+  //           </div>
+  //         </div>
+  //       );
+  //     default:
+  //       return(
+  //         <div className="App">
+  //           <header className={classes.appHeader}>
+  //             <h1 className={classes.appTitle}>React App</h1>
+  //           </header>
+  //         </div>
+  //       );
+  //   }
+  // }
+
+export default (injectSheet(styles)(App));

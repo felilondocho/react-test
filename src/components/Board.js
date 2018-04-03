@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
+import injectSheet from 'react-jss';
 import Collection from './Collection';
-import injectSheet from 'react-jss'
 
 const styles = {
   board: {
@@ -13,23 +13,17 @@ const styles = {
       justifyContent: 'space-evenly'
     }
   }
-}
+};
 
-class Board extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.board}>
-        {this.props.boardElements.sort((a, b) => a.OrderInVertical - b.OrderInVertical)
-          .map((collection, i) =>
-            <Collection
-              key={i}
-              collectionElements = {collection}
-            />
-        )}
-      </div>  
-    );
-  }
+const Board = ({ props, classes, boardElements }) => {
+  return (
+    <div className={classes.board}>
+      {boardElements && boardElements
+        .sort((a, b) => a.OrderInVertical - b.OrderInVertical)
+        .map((collection, i) => <Collection key={i} collectionElements = {collection} />
+      )}
+    </div>
+  );
 }
 
 export default injectSheet(styles)(Board);

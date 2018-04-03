@@ -3,7 +3,6 @@ import * as types from './actionTypes';
 export function fetchData() {
   return dispatch => {
     dispatch(requestData())
-    dispatch(loading())
     return fetch('http://roadmapservice.azurewebsites.net/api/buckets')
     .then((response) => {
       if (response.ok) {
@@ -24,12 +23,6 @@ export function fetchData() {
 function requestData() {
   return {
     type: types.REQUEST
-  }
-}
-
-function loading() {
-  return {
-    type: types.LOADING
   }
 }
 
