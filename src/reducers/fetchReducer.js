@@ -1,13 +1,19 @@
 import * as types from '../actions/actionTypes';
  
 const initialState = {
-  components: []
+  items: [],
+  error: false,
+  isFetching: false,
 };
- 
-export default function fetchData(state = initialState, action = {}) {
+
+export default function mainReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case types.FETCH_DATA_SUCCESS:
-      return Object.assign({}, state, {components: action.payload})
+    case types.REQUEST:
+      return {...state, items: [], isFetching: true}
+    case types.SUCCESS:
+      return {...state, items: action.payload, error: false, isFetching: false}
+    case types.FAIL:
+      return {...state, items: [], error: true, isFetching: false}
     default:
       return state
   }

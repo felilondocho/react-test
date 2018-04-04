@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import injectSheet from 'react-jss'
 
 const styles = {
@@ -33,16 +33,13 @@ const styles = {
   }
 }
 
-class Item extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.item}>
-        <h4 className={classes.itemTitle}>{this.props.itemElements.ItemTitle}</h4>
-        <p className={classes.itemDescription}>{this.props.itemElements.Description}</p>
-      </div>
-    );
-  }
+const Item = ({props, classes, itemElements}) => {
+  return (
+    <div className={classes.item}>
+      <h4 className={classes.itemTitle}>{itemElements.ItemTitle}</h4>
+      <p className={classes.itemDescription}>{itemElements.Description}</p>
+    </div>
+  );
 }
 
 export default injectSheet(styles)(Item);

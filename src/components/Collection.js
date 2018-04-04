@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import Item from './Item';
+import React from 'react';
 import injectSheet from 'react-jss'
+import Item from './Item';
 
 const styles = {
   collection: {
@@ -19,27 +19,21 @@ const styles = {
     margin: '0',
     textAlign: 'left',
     marginBottom: '30px'
-  }
-}
+  },
+};
 
-class Collection extends Component {
-  render() {
-    const { classes } = this.props;
+const Collection = ({props, classes, collectionElements}) => {
     return (
       <div className={classes.collection}>
         <h2 className={classes.collectionTitle}>
-          {this.props.collectionElements.Description}
+          {collectionElements.Description}
         </h2>
-        {this.props.collectionElements.Items.sort((a, b) => a.OrderInLane - b.OrderInLane)
+        {collectionElements.Items.sort((a, b) => a.OrderInLane - b.OrderInLane)
           .map((item, i) =>
-            <Item
-            key = {i}
-            itemElements = {item}
-          />
-        )}
+            <Item key = {i} itemElements = {item} />
+          )}
       </div>
     );
-  }
 }
 
 export default injectSheet(styles)(Collection);

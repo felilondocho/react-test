@@ -7,14 +7,14 @@ import reducers from './reducers/fetchReducer';
 import thunk from 'redux-thunk'
 
 import './index.css';
-import App from './components/App';
+import AppContainer from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
-    <App />
+    <AppContainer />
   </Provider>
   , document.getElementById('root'));
 
