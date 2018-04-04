@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchData } from '../actions/actions'
 import App from '../components/App';

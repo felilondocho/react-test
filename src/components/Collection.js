@@ -30,11 +30,8 @@ const Collection = ({props, classes, collectionElements}) => {
         </h2>
         {collectionElements.Items.sort((a, b) => a.OrderInLane - b.OrderInLane)
           .map((item, i) =>
-            <Item
-            key = {i}
-            itemElements = {item}
-          />
-        )}
+            <Item key = {i} itemElements = {item} />
+          )}
       </div>
     );
 }
