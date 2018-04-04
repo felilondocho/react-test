@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import injectSheet from 'react-jss';
-import { fetchData } from '../actions/actions'
+// import { fetchData } from '../actions/actions'
 import Board from './Board';
 
 
@@ -51,15 +51,15 @@ const styles = {
   }
 }
 
-const App = ({ props, classes, items, error, isFetching }) => {
+const App = ({ props, classes, fetchData, items, error, isFetching }) => {
   return (
     <div className="App">
       <header className={classes.appHeader}>
         <h1 className={classes.appTitle}>React App</h1>
       </header>
       <div className={classes.appBody}>
-        {!isFetching && items.length > 0 ?
-          <button className={classes.requestButton} onClick={this.loadCards}>
+        {!isFetching && items.length === 0 ?
+          <button className={classes.requestButton} onClick={fetchData}>
             Load Cards
           </button>
         : null}
